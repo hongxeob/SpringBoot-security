@@ -13,16 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http.csrf().disable();
-//		http.authorizeRequests()
-//		.antMatchers("/user/**").authenticated() //로그인 한사람만 가능
-//		.antMatchers("/manager/**").access("hasROLE('ROLE_ADMIN') or hasROLE('ROLE_MANAGER')") //로그인 했지만 '매니저'라는 권한 있어야 접속가능.
-//		.antMatchers("/admin/**").access("hasROLE('ROLE_ADMIN')") //로그인 했지만 '어드민'이라는 권한 있어야 접속가능.
-//		.anyRequest().permitAll(); //위 세개 주소가 아닌 경우 권한 허용.
-//
-//	}
+	//해당 메소드의 리턴되는 오브젝트를 IoC로 등록해준다.
+	@Bean
+	public BCryptPasswordEncoder encodePwd() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -34,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().permitAll() //위 세개 주소가 아닌 경우 권한 허용.
 			.and()
 			.formLogin()
-			.loginPage("/login");
+			.loginPage("/loginForm");
+			
 		
 	}
 }
