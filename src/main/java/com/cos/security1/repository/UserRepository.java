@@ -9,4 +9,7 @@ import com.cos.security1.model.User;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 
+	// findBy까지는 규칙 -> Username 문법. 
+	// select * from user where username = ?
+	public User findByUsername(String username); //JPA Querty methods 
 }

@@ -55,7 +55,7 @@ public class IndexController {
 		String rawPassword = user.getPassword(); //생 비밀번호(rawPass--)는 유저가 적은 걸 받은 패스워드이다.
 		String encPaswword = bCryptPasswordEncoder.encode(rawPassword); //암호화 패스워드는(encPass--) rawPass--를 암호화 한것이다 
 		user.setPassword(encPaswword); // DB로 날라오는것은 암호화된 encPass--이다.
-		userRepository.save(user); // 그런 후 그걸 유저 레파지토리에 저장해준다.
+		userRepository.save(user); // 그런 후 그걸 유저 레파지토리에 user 정보에 저장해준다.
 		return "redirect:/loginForm";
 	}
 
