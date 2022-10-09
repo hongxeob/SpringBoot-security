@@ -2,9 +2,11 @@ package com.cos.security1.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.cos.security1.model.User;
 
@@ -16,12 +18,29 @@ import com.cos.security1.model.User;
 
 //Security Session => Authentication => UserDetails(PrincipalDetails)
 
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails,OAuth2User {
 
 	private User user;
+	public Map<String, Object> attributes;
 
+	// 일반 로그인 생성자.
 	public PrincipalDetails(User user) {
 		this.user = user;
+	}
+	
+	// OAuth 로그인 생성자 
+	public PrincipalDetails(User user, Map<String, Object> attributes) {
+		this.user = user;
+		this.attributes=attributes;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	public User getUser() {
+		return user;
 	}
 
 	// 해당 User의 권한을 리턴하는 곳.
@@ -37,6 +56,7 @@ public class PrincipalDetails implements UserDetails {
 		return collect;
 	}
 
+	// 해당 User의 password를 리턴.
 	@Override
 	public String getPassword() {
 		return user.getPassword();
@@ -66,5 +86,13 @@ public class PrincipalDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
+
+	
 
 }
